@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>03-Hello-World</artifactId>
+        <groupId>de.fhms.winfo.se</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>03-Hello-World-EAR</artifactId>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.fhms.winfo.se</groupId>
+            <artifactId>03-Hello-World-Interface</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>de.fhms.winfo.se</groupId>
+            <artifactId>03-Hello-World-EJB</artifactId>
+            <version>1.0</version>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>${version.ear.plugin}</version>
+                <configuration>
+                    <version>7</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <fileNameMapping>no-version</fileNameMapping>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <filename>${project.artifactId}.ear</filename>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

@@ -4,4 +4,5 @@
     <string name="bn_show_caption">Show</string>
     <string name="intentExtra1">content</string>
     <string name="pref_default_salutation">Hello</string>
+    <string name="bn_start_computation">Start Computation</string>
 </resources>

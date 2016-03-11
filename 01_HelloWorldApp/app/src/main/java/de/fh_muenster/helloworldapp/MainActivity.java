@@ -2,6 +2,7 @@ package de.fh_muenster.helloworldapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_showPrefs :
+                startActivity(new Intent(this, MyPreferencesActivity.class));
+                break;
+        }
+
+        return true;
     }
 
     /**
@@ -43,26 +62,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected String computeHelloText(String name, SharedPreferences prefs) {
-        String salutation = prefs.getString("salutation", "");
+        String salutation = prefs.getString("salutation", "Hello");
         return salutation + " " + name + "!";
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+    public void startComputation (View button) {
+        new SumIntsTask().execute(2_000_000);
+        findViewById(R.id.label1).setVisibility(View.VISIBLE);
+        findViewById(R.id.tv_result).setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_showPrefs :
-                startActivity(new Intent(this, MyPreferencesActivity.class));
-                break;
+
+    /**
+     * This inner class contains a complex computation as async task (background task)
+     */
+    class SumIntsTask extends AsyncTask<Integer, Integer, Long> {
+
+        @Override
+        public Long doInBackground(Integer... max) {
+            long result = 0;
+            for (int x = 0; x<=max[0]; x++) {
+                result += x;
+            }
+            return new Long(result);
         }
 
-        return true;
+        @Override
+        public void onPostExecute(Long result) {
+            TextView tvResult = (TextView) findViewById(R.id.tv_result);
+            tvResult.setText(result.toString());
+            tvResult.setVisibility(View.VISIBLE);
+        }
+
     }
 
 }

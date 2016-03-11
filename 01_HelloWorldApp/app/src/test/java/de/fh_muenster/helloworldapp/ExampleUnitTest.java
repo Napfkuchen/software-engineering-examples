@@ -24,7 +24,7 @@ public class ExampleUnitTest {
 
     @Before
     public void prepareMocks() {
-        when(mockPrefs.getString("salutation", "")).thenReturn("Hello (Mock)");
+        when(mockPrefs.getString("salutation", "Hello")).thenReturn("Hello (Mock)");
     }
 
     @Test

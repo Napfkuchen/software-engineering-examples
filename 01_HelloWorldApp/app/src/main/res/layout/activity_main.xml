@@ -23,4 +23,35 @@
         android:layout_below="@+id/editText_name"
         android:layout_marginTop="30dp"
         android:onClick="showResult"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bn_start_computation"
+        android:id="@+id/bn_startComputation"
+        android:layout_below="@+id/bn_show"
+        android:layout_marginTop="30dp"
+        android:onClick="startComputation"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result:"
+        android:id="@+id/label1"
+        android:layout_below="@+id/bn_startComputation"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="68dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tv_result"
+        android:layout_alignBottom="@+id/label1"
+        android:layout_toEndOf="@+id/bn_show"
+        android:visibility="invisible" />
+
+
 </RelativeLayout>

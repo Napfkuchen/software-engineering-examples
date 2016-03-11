@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HelloWorld</string>
+    <string name="app_name">HelloWorld++</string>
     <string name="hello_word">OriginalHelloWorld</string>
     <string name="bn_show_caption">Show</string>
     <string name="intentExtra1">content</string>

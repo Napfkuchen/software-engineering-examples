@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import de.fh_muenster.mysmallapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected String computeHelloText(String name, SharedPreferences prefs) {
         String salutation = prefs.getString("salutation", "");
-        String result = salutation + " " + name + "!";
-        return result;
+        return salutation + " " + name + "!";
     }
 
     @Override

@@ -6,13 +6,9 @@ import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import de.fh_muenster.helloworldapp.MainActivity;
-
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)

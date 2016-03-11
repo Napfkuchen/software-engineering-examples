@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import de.fh_muenster.mysmallapplication.R;
-
 public class ShowHelloWorldActivity extends AppCompatActivity {
 
     @Override

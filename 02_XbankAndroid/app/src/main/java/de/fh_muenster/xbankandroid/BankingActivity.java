@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +30,7 @@ import de.fh_muenster.xbankandroid.tasks.TransferTask;
 import de.fh_muenster.xbankandroid.tasks.UpdateListTask;
 
 
-public class BankingActivity extends ActionBarActivity {
+public class BankingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

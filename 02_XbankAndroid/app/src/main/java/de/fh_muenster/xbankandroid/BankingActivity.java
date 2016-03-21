@@ -37,13 +37,8 @@ public class BankingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banking);
 
-        //Button OnClickListener setzen (Deklaration des Eventhandlers siehe unten)
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(eventHandler);
-
-        //Verschiedene Serveraufrufe durchführen und Elemente der Oberfläche ändern
+        //Zum Befuellen der Activity Kontodaten asynchron vom Server laden:
         BankingTask bankingTask = new BankingTask(this);
-        //Proxy asynchron aufrufen
         bankingTask.execute();
 
         //Toast anzeigen
@@ -63,28 +58,28 @@ public class BankingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        //Wenn "Settings" gedrückt wurde, rufen wir die PrefsActivity auf
+        if (item.getItemId() == R.id.action_settings) {
+            Intent i = new Intent(this, PrefsActivity.class);
+            startActivity(i);
             return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        } else
+            return super.onOptionsItemSelected(item);
     }
 
-    View.OnClickListener eventHandler = new View.OnClickListener() {
-        public void onClick(View ausloeser) {
-            //Logout asynchron ausfuehren:
-            LogoutTask logoutTask = new LogoutTask(ausloeser.getContext(),(XbankAndroidApplication) getApplication());
-            logoutTask.execute();
-        }
-    };
+    /**
+     * Is called by pressing the "Logout" button.
+     * @param ausloeser
+     */
+    public void callLogout (View ausloeser) {
+        //Logout asynchron ausfuehren:
+        LogoutTask logoutTask = new LogoutTask(ausloeser.getContext(),(XbankAndroidApplication) getApplication());
+        logoutTask.execute();
+    }
 
-
+    /**
+     * Dieser Task läd im Hintergrund Kontodaten zum angemeldeten Nutzer
+     */
     private class BankingTask extends AsyncTask<Void, Void, List<Account>>
     {
         private Context context;

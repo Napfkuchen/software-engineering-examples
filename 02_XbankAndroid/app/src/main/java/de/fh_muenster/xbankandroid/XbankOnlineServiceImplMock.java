@@ -16,10 +16,16 @@ import de.fh_muenster.xbank.exceptions.NoSessionException;
  */
 public class XbankOnlineServiceImplMock implements XbankOnlineService {
 
-    private Customer cust;
+    /**
+     * Mocking class holds a list with predefined accounts
+     */
     private List<Account> accountList;
 
+    /**
+     * Constructor
+     */
     public XbankOnlineServiceImplMock() {
+        //create 12 test accounts
         accountList = new ArrayList<>();
         accountList.add(new Account(0, new BigDecimal(23)));
         accountList.add(new Account(1, new BigDecimal(30)));
@@ -37,13 +43,13 @@ public class XbankOnlineServiceImplMock implements XbankOnlineService {
 
     @Override
     public Customer login(String username, String password) throws InvalidLoginException {
-        cust = new Customer("TestBenutzer", "test123");
-        return this.cust;
+        //mocking: return a new user without check
+        return new Customer("TestBenutzer", "test123");
     }
 
     @Override
     public void logout() throws NoSessionException {
-        this.cust = null;
+        //mocking: do nothing!
     }
 
     @Override
@@ -52,6 +58,12 @@ public class XbankOnlineServiceImplMock implements XbankOnlineService {
         return new ArrayList<>(this.accountList);
     }
 
+    /**
+     * mocks the getBalance method
+     * @param accountID
+     * @return
+     * @throws NoSessionException
+     */
     @Override
     public BigDecimal getBalance(int accountID) throws NoSessionException {
         Account acc = findAccountById(accountID);
@@ -62,27 +74,35 @@ public class XbankOnlineServiceImplMock implements XbankOnlineService {
         return null;
     }
 
+    /**
+     * mocks the transfer method
+     * @param fromAccount
+     * @param toAccount
+     * @param amount
+     * @return
+     * @throws NoSessionException
+     */
     @Override
     public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException {
         Account from = findAccountById(fromAccount);
         Account to = findAccountById(toAccount);
 
-        if(from != null && to != null)
-        {
+        if(from != null && to != null) {
             from.decrease(amount);
             to.increase(amount);
-
             return from.getAmount();
         }
         return null;
     }
 
-    private Account findAccountById(int accountId)
-    {
-        for(Account acc : this.accountList)
-        {
-            if(acc.getId() == accountId)
-            {
+    /**
+     * mocks the findAccountById method
+     * @param accountId
+     * @return
+     */
+    private Account findAccountById(int accountId) {
+        for(Account acc : this.accountList) {
+            if(acc.getId() == accountId) {
                 return acc;
             }
         }

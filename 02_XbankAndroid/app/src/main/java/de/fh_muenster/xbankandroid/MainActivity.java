@@ -5,30 +5,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import org.ksoap2.serialization.SoapObject;
-
 import de.fh_muenster.xbank.Customer;
 import de.fh_muenster.xbank.exceptions.InvalidLoginException;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Button OnClickListener setzen (Deklaration des Eventhandlers siehe unten)
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(eventHandler);
     }
 
 
@@ -41,44 +34,42 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
         //Wenn "Settings" gedrückt wurde, rufen wir die PrefsActivity auf
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             Intent i = new Intent(this, PrefsActivity.class);
             startActivity(i);
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        else
+            return super.onOptionsItemSelected(item);
     }
 
-    View.OnClickListener eventHandler = new View.OnClickListener() {
-        public void onClick(View ausloeser) {
+    /**
+     * Called when button "Login" is pressed.
+     * @param ausloeser
+     */
+    public void callLogin(View ausloeser) {
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ausloeser.getContext());
-            String username = prefs.getString("username", "");
-            String password = prefs.getString("password", "");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ausloeser.getContext());
+        String username = prefs.getString("username", "");
+        String password = prefs.getString("password", "");
 
-            if(!"".equals(username) && !"".equals(password))
-            {
-                LoginTask loginTask = new LoginTask(ausloeser.getContext());
-                //Proxy asynchron aufrufen
-                loginTask.execute(username, password);
-            }
-            else
-            {
-                //Toast anzeigen
-                CharSequence text = "Fehlende Logindaten bitte in den Einstellungen eintragen!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(ausloeser.getContext(), text, duration);
-                toast.show();
-            }
+        if(!"".equals(username) && !"".equals(password))
+        {
+            LoginTask loginTask = new LoginTask(ausloeser.getContext());
+            //Proxy asynchron aufrufen
+            loginTask.execute(username, password);
         }
-    };
+        else
+        {
+            //Toast anzeigen
+            CharSequence text = "Fehlende Logindaten bitte in den Einstellungen eintragen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(ausloeser.getContext(), text, duration);
+            toast.show();
+        }
+    }
+
 
     private class LoginTask extends AsyncTask<String, Integer, Customer>
     {

@@ -85,6 +85,7 @@
                 <artifactId>05_SFSB_Xbank-OnlineSystem-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
+                <scope>compile</scope>
             </dependency>
 
             <!-- JBoss distributes a complete set of Java EE 7 APIs including

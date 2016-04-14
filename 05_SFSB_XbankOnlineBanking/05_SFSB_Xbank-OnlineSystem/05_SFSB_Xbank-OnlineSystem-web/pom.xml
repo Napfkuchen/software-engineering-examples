@@ -20,15 +20,15 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <artifactId>04_SLSB_Xbank-OnlineSystem</artifactId>
+      <artifactId>05_SFSB_Xbank-OnlineSystem</artifactId>
       <groupId>de.xbank</groupId>
       <version>1.0.0</version>
    </parent>
 
-   <artifactId>04_SLSB_Xbank-OnlineSystem-web</artifactId>
+   <artifactId>05_SFSB_Xbank-OnlineSystem-web</artifactId>
    <packaging>war</packaging>
 
-   <name>04_SLSB_Xbank-OnlineSystem: WAR Module</name>
+   <name>05_SFSB_Xbank-OnlineSystem: WAR Module</name>
 
    <url>http://wildfly.org</url>
    <licenses>
@@ -44,7 +44,7 @@
       <!-- Dependency on the EJB module so we can use it's services if needed -->
       <dependency>
          <groupId>de.xbank</groupId>
-         <artifactId>04_SLSB_Xbank-OnlineSystem-ejb</artifactId>
+         <artifactId>05_SFSB_Xbank-OnlineSystem-ejb</artifactId>
          <type>ejb</type>
          <scope>provided</scope>
       </dependency>

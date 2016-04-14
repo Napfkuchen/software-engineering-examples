@@ -20,15 +20,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>04_SLSB_Xbank-OnlineSystem</artifactId>
+        <artifactId>05_SFSB_Xbank-OnlineSystem</artifactId>
         <groupId>de.xbank</groupId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>04_SLSB_Xbank-OnlineSystem-ejb</artifactId>
+    <artifactId>05_SFSB_Xbank-OnlineSystem-ejb</artifactId>
     <packaging>ejb</packaging>
 
-    <name>04_SLSB_Xbank-OnlineSystem: EJB Module</name>
+    <name>05_SFSB_Xbank-OnlineSystem: EJB Module</name>
 
     <url>http://wildfly.org</url>
     <licenses>
@@ -98,8 +98,8 @@
         </dependency>
 
         <dependency>
-        	<groupId>de.xbank</groupId>
-        	<artifactId>04_SLSB_Xbank-OnlineService</artifactId>
+        	<groupId>de.xbank.common</groupId>
+        	<artifactId>05_SFSB_Xbank-OnlineService</artifactId>
         	<version>1.0.0</version>
         </dependency>
     </dependencies>

@@ -20,15 +20,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>04_SLSB_Xbank-OnlineSystem</artifactId>
+        <artifactId>05_SFSB_Xbank-OnlineSystem</artifactId>
         <groupId>de.xbank</groupId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>04_SLSB_Xbank-OnlineSystem-ear</artifactId>
+    <artifactId>05_SFSB_Xbank-OnlineSystem-ear</artifactId>
     <packaging>ear</packaging>
 
-    <name>04_SLSB_Xbank-OnlineSystem: EAR Module</name>
+    <name>05_SFSB_Xbank-OnlineSystem: EAR Module</name>
 
     <url>http://wildfly.org</url>
     <licenses>
@@ -44,18 +44,13 @@
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
             <groupId>de.xbank</groupId>
-            <artifactId>04_SLSB_Xbank-OnlineSystem-web</artifactId>
+            <artifactId>05_SFSB_Xbank-OnlineSystem-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>de.xbank</groupId>
-            <artifactId>04_SLSB_Xbank-OnlineSystem-ejb</artifactId>
+            <artifactId>05_SFSB_Xbank-OnlineSystem-ejb</artifactId>
             <type>ejb</type>
-        </dependency>
-        <dependency>
-        	<groupId>de.xbank</groupId>
-        	<artifactId>04_SLSB_Xbank-OnlineService</artifactId>
-        	<version>1.0.0</version>
         </dependency>
     </dependencies>
 

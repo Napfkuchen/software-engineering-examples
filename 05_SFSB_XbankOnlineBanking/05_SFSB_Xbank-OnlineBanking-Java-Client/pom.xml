@@ -11,7 +11,7 @@
   
   <dependencies>
   	<dependency>
-  		<groupId>de.xbank</groupId>
+  		<groupId>de.xbank.common</groupId>
   		<artifactId>05_SFSB_Xbank-OnlineService</artifactId>
   		<version>1.0.0</version>
   	</dependency>

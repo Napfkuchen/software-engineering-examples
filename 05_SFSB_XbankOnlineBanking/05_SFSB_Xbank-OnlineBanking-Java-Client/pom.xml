@@ -12,7 +12,7 @@
   <dependencies>
   	<dependency>
   		<groupId>de.xbank</groupId>
-  		<artifactId>04_SLSB_Xbank-OnlineService</artifactId>
+  		<artifactId>05_SFSB_Xbank-OnlineService</artifactId>
   		<version>1.0.0</version>
   	</dependency>
   	<dependency>

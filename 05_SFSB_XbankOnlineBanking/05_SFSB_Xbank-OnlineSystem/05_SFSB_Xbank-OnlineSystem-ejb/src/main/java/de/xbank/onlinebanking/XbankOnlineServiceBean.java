@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
 
 import org.jboss.logging.Logger;
 
@@ -15,76 +16,71 @@ import de.xbank.common.Customer;
 import de.xbank.common.NoSessionException;
 import de.xbank.common.XbankOnlineService;
 import de.xbank.customer.CustomerRegistry;
-import de.xbank.session.SessionRegistry;
-import de.xbank.session.UserSession;
 
 /**
  * @author Thoene
  * Diese Stateless Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
  *
  */
-@Stateless
+@Stateful
 @Remote(XbankOnlineService.class)
 public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	private static final Logger logger = Logger.getLogger(XbankOnlineServiceBean.class);
 	
+	private Customer user;
+	
 	@Override
-	public String login(String username, String password) {
-		String sessionID = null;
-		Customer kunde = CustomerRegistry.getInstance().findCustomerByName(username);
-		if (kunde != null && kunde.getPassword().equals(password)) {
-			UserSession newSession = new UserSession(kunde);
-			sessionID = newSession.getSessionID();
-			logger.info(newSession + " Login erfolgreich.");
+	public boolean login(String username, String password) {
+		boolean success = false;
+		this.user = CustomerRegistry.getInstance().findCustomerByName(username);
+		if (user != null && user.getPassword().equals(password)) {
+			success = true;
+			logger.info("Login erfolgreich.");
 		}
 		else {
 			logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username="+username);
 		}
-		return sessionID;
+		return success;
 	}
 
 	@Override
-	public void logout(String sessionID) throws NoSessionException {
-		UserSession session = getSession(sessionID);
-		SessionRegistry.getInstance().removeSession(session);
-		logger.info(session + " Logout erfolgreich.");
+	@Remove
+	public void logout() throws NoSessionException {
+		validateLogin();
+		logger.info("Logout erfolgreich.");
 	}
 
 	@Override
-	public BigDecimal getBalance(String sessionID, int accountID) throws NoSessionException {
-		UserSession session = getSession(sessionID);
+	public BigDecimal getBalance(int accountID) throws NoSessionException {
 		BigDecimal result = null;
-		Account konto = session.getUser().getAccountById(accountID);
+		Account konto = user.getAccountById(accountID);
 		if (konto!=null) {
 			result = konto.getBalance();
 		}
-		logger.info(session + " Abfrage Saldo Konto " + accountID + " liefert: "+result);
+		logger.info("Abfrage Saldo Konto " + accountID + " liefert: "+result);
 		return result;
 	}
 
 	@Override
-	public BigDecimal transfer(String sessionID, int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException  {
-		UserSession session = getSession(sessionID);
+	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException  {
 		BigDecimal result = null;
-		Account source = session.getUser().getAccountById(fromAccount);
+		Account source = user.getAccountById(fromAccount);
 		Account target = AccountRegistry.getInstance().findAccountById(toAccount);
 		if (source!=null && target!=null) {
 			source.decrease(amount);
 			target.increase(amount);
 			result = source.getBalance();
 		}
-		logger.info(session + " Ueberweisung von Konto " + fromAccount + " liefert: "+result);		
+		logger.info(" Ueberweisung von Konto " + fromAccount + " liefert: "+result);		
 		return result;
 	}
 
 	@Override
-	public Set<Account> getMyAccounts(String sessionID) throws NoSessionException  {
-		UserSession session = getSession(sessionID);
+	public Set<Account> getMyAccounts() throws NoSessionException  {
 		Set<Account> result = new HashSet<Account>();
-		Customer k = session.getUser();
-		result = k.getAccounts();
-		logger.info(session + " Abfrage eigener Konten liefert: "+result);		
+		result = user.getAccounts();
+		logger.info(" Abfrage eigener Konten liefert: "+result);		
 		return result;
 	}
 	
@@ -93,12 +89,10 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 		return "Hello, I'm an instance of XbankOnlineServiceImpl!";
 	}
 
-	private UserSession getSession(String sessionID) throws NoSessionException {
-		UserSession session = SessionRegistry.getInstance().findSession(sessionID);
-		if (session==null)
-			throw new NoSessionException("Session-ID unbekannt.");
-		else
-			return session;
+	private void validateLogin() throws NoSessionException {
+		if (user == null) {
+			throw new NoSessionException("Bitte zunächst einen Login durchführen");
+		}
 	}
 	
 }

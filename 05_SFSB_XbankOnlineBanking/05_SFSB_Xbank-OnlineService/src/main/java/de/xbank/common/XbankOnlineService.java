@@ -16,14 +16,14 @@ public interface XbankOnlineService {
 	 * @param password
 	 * @return
 	 */
-	public String login(String username, String password);
+	public boolean login(String username, String password);
 	
 	/**
 	 * Operation zum Ausloggen. Schliesst die Session des Nutzers.
 	 * @param sessionID
 	 * @throws NoSessionException
 	 */
-	public void logout(String sessionID) throws NoSessionException;
+	public void logout() throws NoSessionException;
 	
 	
 	/**
@@ -32,7 +32,7 @@ public interface XbankOnlineService {
 	 * @return
 	 * @throws NoSessionException
 	 */
-	public Set<Account> getMyAccounts(String sessionID) throws NoSessionException;
+	public Set<Account> getMyAccounts() throws NoSessionException;
 	
 	/**
 	 * Operation zur Abfrage eines Kontostandes
@@ -41,7 +41,7 @@ public interface XbankOnlineService {
 	 * @return
 	 * @throws NoSessionException
 	 */
-	public BigDecimal getBalance(String sessionID, int accountID) throws NoSessionException;
+	public BigDecimal getBalance(int accountID) throws NoSessionException;
 	
 	/**
 	 * Operation zur Ueberweisung eines Geldbetrags von einem Quell- zu einem Zielkonto
@@ -52,6 +52,6 @@ public interface XbankOnlineService {
 	 * @return
 	 * @throws NoSessionException
 	 */
-	public BigDecimal transfer(String sessionID, int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException;
+	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException;
 	
 }

@@ -33,7 +33,7 @@ public class SimpleOnlineBankingClient {
            Context context = new InitialContext();
 	       
 	       //Lookup-String für eine EJB besteht aus: Name_EA/Name_EJB-Modul/Name_EJB-Klasse!Name_RemoteInterface
-	       String lookupString = "05_SFSB_Xbank-OnlineSystem-ear/05_SFSB_Xbank-OnlineSystem-ejb/XbankOnlineServiceBean!de.xbank.common.XbankOnlineService";
+	       String lookupString = "java:05_SFSB_Xbank-OnlineSystem-ear/05_SFSB_Xbank-OnlineSystem-ejb/XbankOnlineServiceBean!de.xbank.common.XbankOnlineService";
 	       remoteSystem = (XbankOnlineService) context.lookup(lookupString);
  	       
  	       //Zeige, welche Referenz auf das Server-Objekt der Client erhalten hast:
@@ -43,7 +43,11 @@ public class SimpleOnlineBankingClient {
  	       
  	       //Test-Szeanarien ausfuehren:
 		   szenarioEmma();
+		   remoteSystem = (XbankOnlineService) context.lookup(lookupString);
+ 	       
 		   szenarioJoe();		   	       
+		   remoteSystem = (XbankOnlineService) context.lookup(lookupString);
+ 	       
 		   szenarioEmma();
 		   
 		}
@@ -58,11 +62,11 @@ public class SimpleOnlineBankingClient {
 	private static void szenarioEmma() {
 		try {
 		   System.out.println("============================================================");			
-	       String sessionID = remoteSystem.login("emma", "emma1");
+	       remoteSystem.login("emma", "emma1");
 		   System.out.println("Emma hat sich angemeldet, um ihren Kontostand abzufragen.");
-		   BigDecimal kontostand = remoteSystem.getBalance(sessionID, EMMAS_KONTO);
+		   BigDecimal kontostand = remoteSystem.getBalance(EMMAS_KONTO);
 	       System.out.println("Auf Emmas Konto " + EMMAS_KONTO + " betraegt der Saldo: " + kontostand);
-	       remoteSystem.logout(sessionID);
+	       remoteSystem.logout();
 		   System.out.println("Emma hat sich abgemeldet.");
 		}
 		catch (Exception e) {
@@ -76,10 +80,10 @@ public class SimpleOnlineBankingClient {
 	private static void szenarioJoe() {
 		try {
 		   System.out.println("============================================================");			
-	       String sessionID = remoteSystem.login("joe", "joe1");
+	       remoteSystem.login("joe", "joe1");
 		   System.out.println("Joe hat sich angemeldet");
 		   
-	       Set<Account> joesKonten = remoteSystem.getMyAccounts(sessionID);
+	       Set<Account> joesKonten = remoteSystem.getMyAccounts();
 	       if (joesKonten.size()>0) {
 	    	   //gib Joes Konten aus:
 		       System.out.println("Joe hat folgende Konten:");
@@ -87,12 +91,12 @@ public class SimpleOnlineBankingClient {
 		    	   System.out.println(k);
 		       }
 		       System.out.println();
-		       remoteSystem.transfer(sessionID, JOES_KONTO, EMMAS_KONTO, new BigDecimal(33));
+		       remoteSystem.transfer(JOES_KONTO, EMMAS_KONTO, new BigDecimal(33));
 		       System.out.println("Joe hat von Konto "+ JOES_KONTO +" 33 EUR an Konto " + EMMAS_KONTO + " ueberwiesen.");
-		       BigDecimal saldo = remoteSystem.getBalance(sessionID, JOES_KONTO);
+		       BigDecimal saldo = remoteSystem.getBalance(JOES_KONTO);
 		       System.out.println("Der neue Saldo von Konto "+JOES_KONTO+" betraegt: " + saldo);
 	       }
-		   remoteSystem.logout(sessionID);
+		   remoteSystem.logout();
 		   System.out.println("Joe hat sich abgemeldet.");
 		}
 		catch (Exception e) {

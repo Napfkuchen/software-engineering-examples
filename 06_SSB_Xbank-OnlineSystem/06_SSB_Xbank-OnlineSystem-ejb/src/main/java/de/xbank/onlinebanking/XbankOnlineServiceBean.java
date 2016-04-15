@@ -4,9 +4,14 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 
@@ -18,8 +23,8 @@ import de.xbank.common.XbankOnlineService;
 import de.xbank.customer.CustomerRegistry;
 
 /**
- * @author Thoene
- * Diese Stateless Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
+ * @author Thoene Diese Stateless Session Bean implementiert das fuer das
+ *         OnlineBanking bereitgestellte Interface.
  *
  */
 @Stateful
@@ -27,19 +32,31 @@ import de.xbank.customer.CustomerRegistry;
 public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	private static final Logger logger = Logger.getLogger(XbankOnlineServiceBean.class);
-	
+
 	private Customer user;
-	
+
+	private CustomerRegistry customerRegistry;
+
+	private AccountRegistry accountRegistry;
+
+	@PostConstruct
+	public void init() throws NamingException {
+		Context context = new InitialContext();
+		customerRegistry = (CustomerRegistry) context.lookup(
+				"java:global/06_SSB_Xbank-OnlineSystem-ear/06_SSB_Xbank-OnlineSystem-ejb/CustomerRegistry!de.xbank.customer.CustomerRegistry");
+		accountRegistry = (AccountRegistry) context.lookup(
+				"java:global/06_SSB_Xbank-OnlineSystem-ear/06_SSB_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
+	}
+
 	@Override
 	public boolean login(String username, String password) {
 		boolean success = false;
-		this.user = CustomerRegistry.getInstance().findCustomerByName(username);
+		this.user = customerRegistry.findCustomerByName(username);
 		if (user != null && user.getPassword().equals(password)) {
 			success = true;
 			logger.info("Login erfolgreich.");
-		}
-		else {
-			logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username="+username);
+		} else {
+			logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username=" + username);
 		}
 		return success;
 	}
@@ -55,36 +72,35 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 	public BigDecimal getBalance(int accountID) throws NoSessionException {
 		BigDecimal result = null;
 		Account konto = user.getAccountById(accountID);
-		if (konto!=null) {
+		if (konto != null) {
 			result = konto.getBalance();
 		}
-		logger.info("Abfrage Saldo Konto " + accountID + " liefert: "+result);
+		logger.info("Abfrage Saldo Konto " + accountID + " liefert: " + result);
 		return result;
 	}
 
 	@Override
-	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException  {
+	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException {
 		BigDecimal result = null;
 		Account source = user.getAccountById(fromAccount);
-		Account target = AccountRegistry.getInstance().findAccountById(toAccount);
-		if (source!=null && target!=null) {
+		Account target = accountRegistry.findAccountById(toAccount);
+		if (source != null && target != null) {
 			source.decrease(amount);
 			target.increase(amount);
 			result = source.getBalance();
 		}
-		logger.info(" Ueberweisung von Konto " + fromAccount + " liefert: "+result);		
+		logger.info(" Ueberweisung von Konto " + fromAccount + " liefert: " + result);
 		return result;
 	}
 
 	@Override
-	public Set<Account> getMyAccounts() throws NoSessionException  {
+	public Set<Account> getMyAccounts() throws NoSessionException {
 		Set<Account> result = new HashSet<Account>();
 		result = user.getAccounts();
-		logger.info(" Abfrage eigener Konten liefert: "+result);		
+		logger.info(" Abfrage eigener Konten liefert: " + result);
 		return result;
 	}
-	
-	
+
 	public String toString() {
 		return "Hello, I'm an instance of XbankOnlineServiceImpl!";
 	}
@@ -94,5 +110,5 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 			throw new NoSessionException("Bitte zunächst einen Login durchführen");
 		}
 	}
-	
+
 }

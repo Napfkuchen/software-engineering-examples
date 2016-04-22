@@ -3,21 +3,22 @@
   <groupId>de.xbank.client</groupId>
   <artifactId>09_DI_Xbank-OnlineBanking-Java-Client</artifactId>
   <version>1.0.0</version>
-    <properties>
+  
+  <properties>
   		<maven.compiler.source>1.8</maven.compiler.source>
   		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+  </properties>
   <dependencies>
-  	<dependency>
-  		<groupId>de.xbank</groupId>
-  		<artifactId>09_DI_Xbank-OnlineService</artifactId>
-  		<version>1.0.0</version>
-  	</dependency>
-  	<dependency>
+    	<dependency>
  		<groupId>org.wildfly</groupId>
   		<artifactId>wildfly-ejb-client-bom</artifactId>
   		<version>10.0.0.Final</version>
   		<type>pom</type>
 	</dependency>
+  	<dependency>
+  		<groupId>de.xbank</groupId>
+  		<artifactId>09_DI_Xbank-OnlineService</artifactId>
+  		<version>1.0.0</version>
+  	</dependency>
   </dependencies>
 </project>

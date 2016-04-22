@@ -7,7 +7,7 @@ public class Account implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private static int lastID=0;
+	private static int lastID = 0;
 	
 	private int id;
 	private BigDecimal amount;

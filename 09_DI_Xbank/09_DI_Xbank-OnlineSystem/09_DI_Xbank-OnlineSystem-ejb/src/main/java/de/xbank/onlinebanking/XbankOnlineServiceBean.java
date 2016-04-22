@@ -4,24 +4,27 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 
 import de.xbank.banking.AccountRegistry;
 import de.xbank.common.Account;
 import de.xbank.common.Customer;
-import de.xbank.common.InvalidLoginException;
 import de.xbank.common.NoSessionException;
 import de.xbank.common.XbankOnlineService;
 import de.xbank.customer.CustomerRegistry;
 
 /**
- * @author Thoene
- * Diese Stateful Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
+ * @author Thoene Diese Stateless Session Bean implementiert das fuer das
+ *         OnlineBanking bereitgestellte Interface.
  *
  */
 @Stateful
@@ -29,52 +32,33 @@ import de.xbank.customer.CustomerRegistry;
 public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	private static final Logger logger = Logger.getLogger(XbankOnlineServiceBean.class);
-	/**
-	 * Hier wird der angemeldete User einer Session gespeichert.
-	 */
+
 	private Customer user;
-	
-	/**
-	 * EJB zur Abfrage von Customer-Datensätzen
-	 * Referenz auf die EJB wird per Dependency Injection gefüllt.
-	 * Der hier angegebene Name könnte später über einen Deployment Deskriptor geändert werden. 
-	 */
-	@EJB(beanName = "CustomerRegistry", beanInterface = de.xbank.customer.CustomerRegistry.class)
+
 	private CustomerRegistry customerRegistry;
-	
-	/**
-	 * EJB zur Abfrage von Account-Datensätzen
-	 * Referenz auf die EJB wird per Dependency Injection gefüllt.
-	 * Wenn wie hier kein Bean-Name angegeben ist, sucht der Container eine passende EJB anhand des angegebenen Typs
-	 */
-	@EJB
+
 	private AccountRegistry accountRegistry;
-	
-//	Die folgende Initialisierungsmethode kann entfallen, da wir nun mit Dependency Injection arbeiten.
-//	/**
-//	 * Anstelle eines Konstruktors wird diese Methode vom Container aufgerufen, um die Initialisierung
-//	 * durchzuführen. Sie holt sich Referenzen auf benötigte andere EJBs.
-//	 * @throws NamingException
-//	 */
-//	@PostConstruct
-//	private void init() throws NamingException {
-//	  Context context = new InitialContext();	
-//	  this.customerRegistry = (CustomerRegistry) context.lookup(CUSTOMER_REGISTRY);
-//	  this.accountRegistry = (AccountRegistry) context.lookup(ACCOUNT_REGISTRY);
-//	}
-	
+
+	@PostConstruct
+	public void init() throws NamingException {
+		Context context = new InitialContext();
+		customerRegistry = (CustomerRegistry) context.lookup(
+				"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/CustomerRegistry!de.xbank.customer.CustomerRegistry");
+		accountRegistry = (AccountRegistry) context.lookup(
+				"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
+	}
+
 	@Override
-	public boolean login(String username, String password) throws InvalidLoginException {
-		Customer customer = this.customerRegistry.findCustomerByName(username);
-		if (customer != null && customer.getPassword().equals(password)) {
-			this.user = customer;
+	public boolean login(String username, String password) {
+		boolean success = false;
+		this.user = customerRegistry.findCustomerByName(username);
+		if (user != null && user.getPassword().equals(password)) {
+			success = true;
 			logger.info("Login erfolgreich.");
-			return true;
+		} else {
+			logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username=" + username);
 		}
-		else {
-			logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username="+username);
-			throw new InvalidLoginException("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username="+username);
-		}
+		return success;
 	}
 
 	@Override
@@ -86,47 +70,45 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public BigDecimal getBalance(int accountID) throws NoSessionException {
-		validateLogin();
 		BigDecimal result = null;
-		Account konto = this.user.getAccountById(accountID);
-		if (konto!=null) {
+		Account konto = user.getAccountById(accountID);
+		if (konto != null) {
 			result = konto.getBalance();
 		}
-		logger.info("Abfrage Saldo Konto " + accountID + " liefert: "+result);
+		logger.info("Abfrage Saldo Konto " + accountID + " liefert: " + result);
 		return result;
 	}
 
 	@Override
 	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException {
-		validateLogin();		
 		BigDecimal result = null;
-		Account source = this.user.getAccountById(fromAccount);
-		Account target = this.accountRegistry.findAccountById(toAccount);
-		if (source!=null && target!=null) {
+		Account source = user.getAccountById(fromAccount);
+		Account target = accountRegistry.findAccountById(toAccount);
+		if (source != null && target != null) {
 			source.decrease(amount);
 			target.increase(amount);
 			result = source.getBalance();
 		}
-		logger.info("Ueberweisung von Konto " + fromAccount + " liefert: "+result);		
+		logger.info(" Ueberweisung von Konto " + fromAccount + " liefert: " + result);
 		return result;
 	}
 
 	@Override
 	public Set<Account> getMyAccounts() throws NoSessionException {
-		validateLogin();
 		Set<Account> result = new HashSet<Account>();
-		result = this.user.getAccounts();
-		logger.info("Abfrage eigener Konten liefert: "+result);		
+		result = user.getAccounts();
+		logger.info(" Abfrage eigener Konten liefert: " + result);
 		return result;
 	}
-	
-	
+
 	public String toString() {
 		return "Hello, I'm an instance of XbankOnlineServiceImpl!";
 	}
 
 	private void validateLogin() throws NoSessionException {
-		if (this.user==null) throw new NoSessionException("Bitte zunächst ein Login durchführen.");
+		if (user == null) {
+			throw new NoSessionException("Bitte zunächst einen Login durchführen");
+		}
 	}
-	
+
 }

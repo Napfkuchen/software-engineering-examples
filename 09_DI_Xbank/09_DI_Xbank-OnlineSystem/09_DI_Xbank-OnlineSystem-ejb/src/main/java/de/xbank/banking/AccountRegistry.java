@@ -12,7 +12,7 @@ import de.xbank.common.Account;
 
 
 /**
- * Klasse AccountRegistry als Singleton.
+ * Klasse AccountRegistry als Singleton Session Bean.
  * 
  * Alle vorhandenen Account-Objekte sollen hier registriert werden, damit die AccountRegistry
  * als zentrales Verzeichnis fungieren kann.
@@ -20,8 +20,6 @@ import de.xbank.common.Account;
 @Singleton
 @Startup
 public class AccountRegistry {
-	
-	private static AccountRegistry singleInstance = new AccountRegistry();
 	
 	private HashMap<Integer,Account> accounts;
 	

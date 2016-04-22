@@ -39,12 +39,17 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 	private AccountRegistry accountRegistry;
 
 	@PostConstruct
-	public void init() throws NamingException {
-		Context context = new InitialContext();
-		customerRegistry = (CustomerRegistry) context.lookup(
-				"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/CustomerRegistry!de.xbank.customer.CustomerRegistry");
-		accountRegistry = (AccountRegistry) context.lookup(
-				"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
+	public void init() {
+		try {
+			Context context = new InitialContext();
+			customerRegistry = (CustomerRegistry) context.lookup(
+					"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/CustomerRegistry!de.xbank.customer.CustomerRegistry");
+			accountRegistry = (AccountRegistry) context.lookup(
+					"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
+		}
+		catch (NamingException e){
+			logger.error(e.getMessage());
+		}
 	}
 
 	@Override

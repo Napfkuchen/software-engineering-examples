@@ -32,7 +32,7 @@ public class CustomerRegistry {
 	private HashMap<String, Customer> customers;
 
 	@PostConstruct
-	public void init() throws NamingException {
+	public void init() {
 		this.customers = new HashMap<String, Customer>();
 
 		Customer joe = new Customer("joe", "joe1");
@@ -44,13 +44,18 @@ public class CustomerRegistry {
 
 		Account joesAccount = new Account(joe);
 		Account emmasAccount = new Account(emma);
-		AccountRegistry accountRegistry = (AccountRegistry) new InitialContext().lookup(
-				"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
-		accountRegistry.addKonto(joesAccount);
-		accountRegistry.addKonto(emmasAccount);
+		AccountRegistry accountRegistry;
+		try {
+			accountRegistry = (AccountRegistry) new InitialContext().lookup(
+					"java:global/09_DI_Xbank-OnlineSystem-ear/09_DI_Xbank-OnlineSystem-ejb/AccountRegistry!de.xbank.banking.AccountRegistry");
+			accountRegistry.addKonto(joesAccount);
+			accountRegistry.addKonto(emmasAccount);
 
-		logger.info("Konto angelegt: " + joesAccount);
-		logger.info("Konto angelegt: " + emmasAccount);
+			logger.info("Konto angelegt: " + joesAccount);
+			logger.info("Konto angelegt: " + emmasAccount);
+		} catch (NamingException e) {
+			logger.error(e.getMessage());
+		}
 	}
 
 	@Lock(LockType.READ)

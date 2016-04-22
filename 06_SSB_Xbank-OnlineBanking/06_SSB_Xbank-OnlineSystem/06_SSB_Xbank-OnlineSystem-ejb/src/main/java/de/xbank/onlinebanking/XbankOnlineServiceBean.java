@@ -19,7 +19,7 @@ import de.xbank.customer.CustomerRegistry;
 
 /**
  * @author Thoene
- * Diese Stateless Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
+ * Diese Stateful Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
  *
  */
 @Stateful
@@ -53,6 +53,7 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public BigDecimal getBalance(int accountID) throws NoSessionException {
+		validateLogin();
 		BigDecimal result = null;
 		Account konto = user.getAccountById(accountID);
 		if (konto!=null) {
@@ -64,6 +65,7 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException  {
+		validateLogin();
 		BigDecimal result = null;
 		Account source = user.getAccountById(fromAccount);
 		Account target = AccountRegistry.getInstance().findAccountById(toAccount);
@@ -78,17 +80,21 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public Set<Account> getMyAccounts() throws NoSessionException  {
-		Set<Account> result = new HashSet<Account>();
-		result = user.getAccounts();
+		validateLogin();
+		Set<Account> result = user.getAccounts();
 		logger.info(" Abfrage eigener Konten liefert: "+result);		
 		return result;
 	}
 	
 	
 	public String toString() {
-		return "Hello, I'm an instance of XbankOnlineServiceImpl!";
+		return "Hello, I'm an instance of XbankOnlineServiceBean!";
 	}
 
+	/**
+	 * Checks if attribute "user" is set as done during login().
+	 * @throws NoSessionException
+	 */
 	private void validateLogin() throws NoSessionException {
 		if (user == null) {
 			throw new NoSessionException("Bitte zunächst einen Login durchführen");

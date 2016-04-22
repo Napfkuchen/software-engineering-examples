@@ -69,6 +69,7 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public BigDecimal getBalance(int accountID) throws NoSessionException {
+		validateLogin();
 		BigDecimal result = null;
 		Account konto = user.getAccountById(accountID);
 		if (konto != null) {
@@ -80,6 +81,7 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public BigDecimal transfer(int fromAccount, int toAccount, BigDecimal amount) throws NoSessionException {
+		validateLogin();
 		BigDecimal result = null;
 		Account source = user.getAccountById(fromAccount);
 		Account target = accountRegistry.findAccountById(toAccount);
@@ -94,6 +96,7 @@ public class XbankOnlineServiceBean implements XbankOnlineService {
 
 	@Override
 	public Set<Account> getMyAccounts() throws NoSessionException {
+		validateLogin();
 		Set<Account> result = new HashSet<Account>();
 		result = user.getAccounts();
 		logger.info(" Abfrage eigener Konten liefert: " + result);

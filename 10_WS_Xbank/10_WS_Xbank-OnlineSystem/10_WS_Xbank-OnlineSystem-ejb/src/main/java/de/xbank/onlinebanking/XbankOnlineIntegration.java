@@ -25,7 +25,8 @@ import de.xbank.util.DtoAssembler;
 
 /**
  * @author Thoene
- * Diese Stateless Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
+ * Diese Stateless Session Bean stellt die OnlineBanking-Operationen als Webservice bereit.
+ * Ein gemeinsames Business-Interface für Client und Server ist in diesem Fall nicht mehr noetig.
  *
  */
 @WebService
@@ -61,6 +62,12 @@ public class XbankOnlineIntegration {
 	@EJB
 	private DtoAssembler dtoAssembler;
 
+	/**
+	 * Holt anhand der Session-ID das zugehörige Session-Objekt vom SessionManager.
+	 * @param sessionId
+	 * @return
+	 * @throws NoSessionException
+	 */
 	private XbankSession getSession(int sessionId) throws NoSessionException {
 		XbankSession session = sessionManager.findSessionById(sessionId);
 		if (session==null)
@@ -69,6 +76,12 @@ public class XbankOnlineIntegration {
 			return session;
 	}
 
+	/**
+	 * Führt den Login eines Benutzers durch und legt eine neue Session für diesen Nutzer an.
+	 * @param username
+	 * @param password
+	 * @return das DataTransferObject UserLoginResponse
+	 */
 	public UserLoginResponse login(String username, String password) {
 		UserLoginResponse response = new UserLoginResponse();
 		try {
@@ -84,6 +97,7 @@ public class XbankOnlineIntegration {
 			}
 		}
 		catch (XbankException e) {
+			//Eine Exception wird dem Webservice-Client über einen Errorcode mitgeteilt:
 			response.setReturnCode(e.getErrorCode());
 			response.setMessage(e.getMessage());
 		}

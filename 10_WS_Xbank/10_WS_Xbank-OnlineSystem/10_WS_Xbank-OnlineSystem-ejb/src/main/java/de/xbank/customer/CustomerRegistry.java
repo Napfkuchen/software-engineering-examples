@@ -8,10 +8,9 @@ import javax.ejb.DependsOn;
 import javax.ejb.EJB;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
+import javax.ejb.SessionContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 
@@ -35,9 +34,12 @@ public class CustomerRegistry {
 	
 	@Resource
 	private String customer1, password1, customer2, password2;
+	
+	@Resource
+	private SessionContext context;
 		
 	@PostConstruct
-	private void init() throws NamingException {
+	private void init() {
 		customersByUsername = new HashMap<>();
 		//erzeuge ein paar Beispieldaten zu Kunden und Konten; die verwendeten Konstruktoren registrieren die erzeugten Objekte in 
 		//zentralen Registries, sodass sie bei spaeteren Client-Requests wiedergefunden werden koennen.
@@ -54,7 +56,7 @@ public class CustomerRegistry {
 		Account emmasAccount= new Account(emma);
 		
 		//AccountRegistry Bean nachschlagen und Konten einfügen
-		AccountRegistry accountRegistry = (AccountRegistry) new InitialContext().lookup("java:comp/env/ejb/AccountManager");		
+		AccountRegistry accountRegistry = (AccountRegistry) context.lookup("ejb/AccountManager");		
 		accountRegistry.addKonto(joesAccount);
 		accountRegistry.addKonto(joesAccount2);
 		accountRegistry.addKonto(emmasAccount);

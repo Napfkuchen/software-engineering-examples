@@ -1,6 +1,6 @@
 package de.xbank.dto;
 
-public class ReturncodeResponse extends Response {
+public class ReturncodeResponse extends DataTransferObject {
 
 	private static final long serialVersionUID = 3397348747136795401L;
 	private static final int CODE_OK = 0;

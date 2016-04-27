@@ -1,14 +1,13 @@
 package de.xbank.dto;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import de.xbank.banking.Account;
 
 
-public class CustomerTO implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class CustomerTO extends DataTransferObject {
+
+	private static final long serialVersionUID = -1044563636105941958L;
 	
 	private int id;
 	private String userName;

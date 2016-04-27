@@ -1,11 +1,10 @@
 package de.xbank.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class AccountTO implements Serializable {
+public class AccountTO extends DataTransferObject {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3440740273700082798L;
 	
 	private int id;
 	private BigDecimal balance;

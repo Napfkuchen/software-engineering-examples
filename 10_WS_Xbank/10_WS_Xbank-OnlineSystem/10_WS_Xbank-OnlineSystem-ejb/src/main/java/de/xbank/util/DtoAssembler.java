@@ -10,6 +10,12 @@ import de.xbank.customer.Customer;
 import de.xbank.dto.AccountTO;
 import de.xbank.dto.CustomerTO;
 
+/**
+ * This stateless session bean provides operations for generating data transfer objects from
+ * internal entity objects (Customer and Account).
+ * @author Thoene
+ *
+ */
 @Stateless
 public class DtoAssembler {
 

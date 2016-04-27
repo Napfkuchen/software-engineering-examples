@@ -7,6 +7,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import de.xbank.common.Account;
+import de.xbank.common.NoSessionException;
 import de.xbank.common.XbankOnlineService;
 
 
@@ -62,14 +63,15 @@ public class SimpleOnlineBankingClient {
 	private static void szenarioEmma() {
 		try {
 		   System.out.println("============================================================");			
-	       remoteSystem.login("emma", "emma1");
+	       remoteSystem.login("emma", "emma1XYZ");  	   
 		   System.out.println("Emma hat sich angemeldet, um ihren Kontostand abzufragen.");
 		   BigDecimal kontostand = remoteSystem.getBalance(EMMAS_KONTO);
 	       System.out.println("Auf Emmas Konto " + EMMAS_KONTO + " betraegt der Saldo: " + kontostand);
 	       remoteSystem.logout();
 		   System.out.println("Emma hat sich abgemeldet.");
 		}
-		catch (Exception e) {
+		catch (NoSessionException e) {
+			System.out.println("Session nicht mehr gültig");
 			e.printStackTrace();
 		}
 	}
@@ -99,7 +101,8 @@ public class SimpleOnlineBankingClient {
 		   remoteSystem.logout();
 		   System.out.println("Joe hat sich abgemeldet.");
 		}
-		catch (Exception e) {
+		catch (NoSessionException e) {
+			System.out.println("Session nicht mehr gültig");
 			e.printStackTrace();
 		}
 	}

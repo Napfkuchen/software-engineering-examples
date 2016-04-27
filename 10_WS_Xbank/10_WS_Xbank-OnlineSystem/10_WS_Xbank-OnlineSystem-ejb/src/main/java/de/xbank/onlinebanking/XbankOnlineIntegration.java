@@ -24,10 +24,9 @@ import de.xbank.session.XbankSession;
 import de.xbank.util.DtoAssembler;
 
 /**
- * @author Thoene
  * Diese Stateless Session Bean stellt die OnlineBanking-Operationen als Webservice bereit.
  * Ein gemeinsames Business-Interface für Client und Server ist in diesem Fall nicht mehr noetig.
- *
+ * @author Thoene
  */
 @WebService
 @WebContext(contextRoot="/xbank")

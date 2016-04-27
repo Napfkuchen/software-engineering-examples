@@ -10,6 +10,7 @@ import de.xbank.customer.Customer;
 import de.xbank.dto.AccountTO;
 import de.xbank.dto.CustomerTO;
 
+@Stateless
 public class DtoAssembler {
 
   public AccountTO makeDTO(Account account) {

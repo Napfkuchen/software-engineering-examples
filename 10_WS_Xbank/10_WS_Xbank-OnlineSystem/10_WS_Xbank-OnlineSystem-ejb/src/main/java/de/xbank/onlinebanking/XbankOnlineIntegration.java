@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.annotation.WebContext;
 
 import de.xbank.banking.Account;
 import de.xbank.banking.AccountRegistry;
@@ -27,7 +27,7 @@ import de.xbank.util.DtoAssembler;
  * Diese Stateless Session Bean implementiert das fuer das OnlineBanking bereitgestellte Interface.
  *
  */
-
+@WebContext(contextRoot="/xbank")
 @Stateless
 public class XbankOnlineIntegration {
 
@@ -50,11 +50,13 @@ public class XbankOnlineIntegration {
 	/**
 	 * EJB zur Verwaltung der Sessions
 	 */
+	@EJB
 	private SessionManager sessionManager;
 
 	/**
 	 * EJB zur Erzeugung von DataTransferObjects
 	 */
+	@EJB
 	private DtoAssembler dtoAssembler;
 
 	private XbankSession getSession(int sessionId) throws NoSessionException {

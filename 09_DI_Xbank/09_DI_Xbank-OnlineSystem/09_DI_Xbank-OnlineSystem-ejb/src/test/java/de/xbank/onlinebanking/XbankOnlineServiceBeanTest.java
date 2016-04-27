@@ -1,5 +1,7 @@
 package de.xbank.onlinebanking;
 
+import static org.junit.Assert.fail;
+
 import javax.ejb.EJB;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -55,10 +57,10 @@ public class XbankOnlineServiceBeanTest {
 	public void test3() {
 		try {
 			bean.getMyAccounts();
+			fail();
 		} catch (NoSessionException e) {
-			assert true;
+			//this exception is expected!
 		}
-		assert false;
 	}
 	
 }

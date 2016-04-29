@@ -37,7 +37,6 @@ public class DtoAssembler {
 
   public CustomerTO makeDTO(Customer customer) {
 	  CustomerTO dto = new CustomerTO();
-	  dto.setId(customer.getId());
 	  dto.setPassword(customer.getPassword());
 	  dto.setUserName(customer.getUserName());
 	  return dto;

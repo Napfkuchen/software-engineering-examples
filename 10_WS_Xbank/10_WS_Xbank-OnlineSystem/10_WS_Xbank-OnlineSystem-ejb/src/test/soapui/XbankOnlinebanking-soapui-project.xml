@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="62186a77-ea6e-4002-95f6-96ecf7520f8e" activeEnvironment="Default" name="XbankOnlinebanking" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="TestSuite" value="XbankOnlineIntegrationServiceSoapBinding TestSuite"/>
+  <con:entry key="Endpoint" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Export JUnit Results with test properties" value="false"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="TestCase" value="Testszenario Emma"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Save Project" value="false"/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" id="694cd0f5-35d2-47bb-b6a4-360bd973f39b" wsaVersion="NONE" name="XbankOnlineIntegrationServiceSoapBinding" type="wsdl" bindingName="{http://onlinebanking.xbank.de/}XbankOnlineIntegrationServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/xbank/XbankOnlineIntegration?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/xbank/XbankOnlineIntegration?wsdl"><con:part><con:url>http://localhost:8080/xbank/XbankOnlineIntegration?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="XbankOnlineIntegrationService" targetNamespace="http://onlinebanking.xbank.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://onlinebanking.xbank.de/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://onlinebanking.xbank.de/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getBalance" type="tns:getBalance"/>
+      <xs:element name="getBalanceResponse" type="tns:getBalanceResponse"/>
+      <xs:element name="getMyAccounts" type="tns:getMyAccounts"/>
+      <xs:element name="getMyAccountsResponse" type="tns:getMyAccountsResponse"/>
+      <xs:element name="login" type="tns:login"/>
+      <xs:element name="loginResponse" type="tns:loginResponse"/>
+      <xs:element name="logout" type="tns:logout"/>
+      <xs:element name="logoutResponse" type="tns:logoutResponse"/>
+      <xs:element name="transfer" type="tns:transfer"/>
+      <xs:element name="transferResponse" type="tns:transferResponse"/>
+      <xs:complexType name="login">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+          <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="loginResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:userLoginResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="userLoginResponse">
+        <xs:complexContent>
+          <xs:extension base="tns:returncodeResponse">
+            <xs:sequence>
+              <xs:element name="customerId" type="xs:int"/>
+              <xs:element name="sessionId" type="xs:int"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="returncodeResponse">
+        <xs:complexContent>
+          <xs:extension base="tns:dataTransferObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="message" type="xs:string"/>
+              <xs:element name="returnCode" type="xs:int"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType abstract="true" name="dataTransferObject">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="getMyAccounts">
+        <xs:sequence>
+          <xs:element name="arg0" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getMyAccountsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:accountListResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="accountListResponse">
+        <xs:complexContent>
+          <xs:extension base="tns:returncodeResponse">
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="accountList" nillable="true" type="tns:accountTO"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="accountTO">
+        <xs:complexContent>
+          <xs:extension base="tns:dataTransferObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="balance" type="xs:decimal"/>
+              <xs:element name="id" type="xs:int"/>
+              <xs:element name="ownerId" type="xs:int"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="logout">
+        <xs:sequence>
+          <xs:element name="arg0" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="logoutResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:returncodeResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getBalance">
+        <xs:sequence>
+          <xs:element name="arg0" type="xs:int"/>
+          <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getBalanceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:accountBalanceResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="accountBalanceResponse">
+        <xs:complexContent>
+          <xs:extension base="tns:returncodeResponse">
+            <xs:sequence>
+              <xs:element name="accountId" type="xs:int"/>
+              <xs:element minOccurs="0" name="balance" type="xs:decimal"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="transfer">
+        <xs:sequence>
+          <xs:element name="arg0" type="xs:int"/>
+          <xs:element name="arg1" type="xs:int"/>
+          <xs:element name="arg2" type="xs:int"/>
+          <xs:element minOccurs="0" name="arg3" type="xs:decimal"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="transferResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:transferMoneyResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="transferMoneyResponse">
+        <xs:complexContent>
+          <xs:extension base="tns:returncodeResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="newBalance" type="xs:decimal"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="logout">
+    <wsdl:part element="tns:logout" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="tns:loginResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logoutResponse">
+    <wsdl:part element="tns:logoutResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBalance">
+    <wsdl:part element="tns:getBalance" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="transfer">
+    <wsdl:part element="tns:transfer" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part element="tns:login" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMyAccounts">
+    <wsdl:part element="tns:getMyAccounts" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMyAccountsResponse">
+    <wsdl:part element="tns:getMyAccountsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="transferResponse">
+    <wsdl:part element="tns:transferResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBalanceResponse">
+    <wsdl:part element="tns:getBalanceResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="XbankOnlineIntegration">
+    <wsdl:operation name="login">
+      <wsdl:input message="tns:login" name="login"></wsdl:input>
+      <wsdl:output message="tns:loginResponse" name="loginResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMyAccounts">
+      <wsdl:input message="tns:getMyAccounts" name="getMyAccounts"></wsdl:input>
+      <wsdl:output message="tns:getMyAccountsResponse" name="getMyAccountsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <wsdl:input message="tns:logout" name="logout"></wsdl:input>
+      <wsdl:output message="tns:logoutResponse" name="logoutResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBalance">
+      <wsdl:input message="tns:getBalance" name="getBalance"></wsdl:input>
+      <wsdl:output message="tns:getBalanceResponse" name="getBalanceResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <wsdl:input message="tns:transfer" name="transfer"></wsdl:input>
+      <wsdl:output message="tns:transferResponse" name="transferResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="XbankOnlineIntegrationServiceSoapBinding" type="tns:XbankOnlineIntegration">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMyAccounts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMyAccounts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMyAccountsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="logout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="logoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBalance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBalance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBalanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transfer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="transfer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="transferResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="XbankOnlineIntegrationService">
+    <wsdl:port binding="tns:XbankOnlineIntegrationServiceSoapBinding" name="XbankOnlineIntegrationPort">
+      <soap:address location="http://localhost:8080/xbank/XbankOnlineIntegration"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint></con:endpoints><con:operation id="95a9552a-0ae7-4f05-bf73-e2c9f34e0335" isOneWay="false" action="" name="getBalance" bindingOperationName="getBalance" type="Request-Response" outputName="getBalanceResponse" inputName="getBalance" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="aa8675a1-99aa-4976-a1d9-f3e4e29b2139" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:getBalance>
+         <arg0>?</arg0>
+         <arg1>?</arg1>
+      </onl:getBalance>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://onlinebanking.xbank.de/XbankOnlineIntegration/getBalance"/></con:call></con:operation><con:operation id="b7d34fa5-dc6f-4996-a635-56e8111ab820" isOneWay="false" action="" name="getMyAccounts" bindingOperationName="getMyAccounts" type="Request-Response" outputName="getMyAccountsResponse" inputName="getMyAccounts" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="fc5c6cb2-a394-4a13-ad06-c6c2d7a1e496" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:getMyAccounts>
+         <arg0>-1631654733</arg0>
+      </onl:getMyAccounts>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://onlinebanking.xbank.de/XbankOnlineIntegration/getMyAccounts"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="da3b7cc2-2a41-4dca-9f4f-ff8066e3f800" isOneWay="false" action="" name="login" bindingOperationName="login" type="Request-Response" outputName="loginResponse" inputName="login" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="4c78f1ca-f30d-4e4a-a611-e91840ba14fc" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:login>
+         <!--Optional:-->
+         <arg0>emma</arg0>
+         <!--Optional:-->
+         <arg1>emma1</arg1>
+      </onl:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://onlinebanking.xbank.de/XbankOnlineIntegration/login"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c793a16e-4477-4a2e-b960-7d400ba91645" isOneWay="false" action="" name="logout" bindingOperationName="logout" type="Request-Response" outputName="logoutResponse" inputName="logout" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="bca8fc3c-3954-4406-ad29-31265f32ae44" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:logout>
+         <arg0>10</arg0>
+      </onl:logout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://onlinebanking.xbank.de/XbankOnlineIntegration/logout"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c5a4f447-cb0e-404c-89db-24d9d5f86585" isOneWay="false" action="" name="transfer" bindingOperationName="transfer" type="Request-Response" outputName="transferResponse" inputName="transfer" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5f8cb73b-045a-483c-808d-3b273ebb2fb0" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:transfer>
+         <arg0>?</arg0>
+         <arg1>?</arg1>
+         <arg2>?</arg2>
+         <!--Optional:-->
+         <arg3>?</arg3>
+      </onl:transfer>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://onlinebanking.xbank.de/XbankOnlineIntegration/transfer"/></con:call></con:operation></con:interface><con:testSuite id="0de9653f-89b8-4b37-9c5a-f5c05dec58ae" name="XbankOnlineIntegrationServiceSoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="82412947-3c02-4c08-a945-6ab1d9b1b080" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Testszenario Emma" searchProperties="true"><con:settings/><con:testStep type="request" id="ce54ca5b-038b-48f3-9d2e-7ef840e88354" name="login"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>XbankOnlineIntegrationServiceSoapBinding</con:interface><con:operation>login</con:operation><con:request name="login" id="1bbc6642-2fc0-484d-85f1-7c653d431f32"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:login>
+         <arg0>emma</arg0>
+         <arg1>emma1</arg1>
+      </onl:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="XPath Match" id="6ee5d014-cbee-408d-a67b-b9d67cc1b18d" name="XPath Match"><con:configuration><path>declare namespace xbank='http://onlinebanking.xbank.de/';
+//xbank:loginResponse/return/customer/userName</path><content>emma</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http://onlinebanking.xbank.de/XbankOnlineIntegration/login" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="SessionID_to_getMyAccounts Transfer" id="0dfbfd16-f5c2-4209-97eb-448c972ef415"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>SessionID Transfer</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>login</con:sourceStep><con:sourcePath>//sessionId</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>getMyAccounts</con:targetStep><con:targetPath>//arg0</con:targetPath><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" name="getMyAccounts" id="307495ab-2246-462a-97b9-d1806509eca8"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>XbankOnlineIntegrationServiceSoapBinding</con:interface><con:operation>getMyAccounts</con:operation><con:request name="getMyAccounts" id="5f6e2219-fb88-45ac-8038-1598bb93bf1f"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:getMyAccounts>
+         <arg0>-1631654733</arg0>
+      </onl:getMyAccounts>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="XPath Match" id="931d45c0-9f9f-4cbb-ab5e-0cf6e806116a" name="XPath Match"><con:configuration><path>//accountList/id</path><content>3</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="SessionID_to_logout Transfer" id="87397bbb-04b1-4192-884b-aa946cc8e8be"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>SessionID Transfer</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>login</con:sourceStep><con:sourcePath>//sessionId</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>logout</con:targetStep><con:targetPath>//arg0</con:targetPath><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" name="logout" id="415eb324-f8d0-4327-8aba-d0a61bf608cc"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>XbankOnlineIntegrationServiceSoapBinding</con:interface><con:operation>logout</con:operation><con:request name="logout" id="6f100d3d-acea-43a2-8e64-a49af4b0d4af"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/xbank/XbankOnlineIntegration</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:onl="http://onlinebanking.xbank.de/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <onl:logout>
+         <arg0>-1631654733</arg0>
+      </onl:logout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="XPath Match" id="16b86505-af06-45bc-aeef-59116727814e" name="XPath Match"><con:configuration><path>//returnCode</path><content>0</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

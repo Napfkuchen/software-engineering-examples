@@ -89,6 +89,7 @@ public class XbankOnlineIntegration {
 				logger.info("Login erfolgreich.");
 				int sessionId = sessionManager.createSession(user);
 				response.setSessionId(sessionId);
+				response.setCustomer(this.dtoAssembler.makeDTO(user));
 			}
 			else {
 				logger.info("Login fehlgeschlagen, da Kunde unbekannt oder Passwort falsch. username=" + username);

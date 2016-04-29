@@ -1,19 +1,18 @@
 package de.xbank.session;
 
 import java.util.Date;
+import java.util.Random;
 
 import de.xbank.customer.Customer;
 
 public class XbankSession {
 
-	private static int lastID = 0;
-	
 	private int id;
 	private Customer user;
 	private Date creationTime;
 	
 	public XbankSession(Customer user) {
-		this.id = ++lastID;
+		this.id = new Random(Integer.MAX_VALUE).nextInt();
 		this.user = user;
 		this.creationTime = new Date();
 	}

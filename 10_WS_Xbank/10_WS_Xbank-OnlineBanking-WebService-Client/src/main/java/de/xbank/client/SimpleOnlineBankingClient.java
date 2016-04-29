@@ -76,6 +76,7 @@ public class SimpleOnlineBankingClient {
      * Test-Szenario: Joe meldet sich an, fragt seine Konten ab und überweist an Emma
      */
 	private static void szenarioJoe() {
+	   System.out.println("============================================================");
        UserLoginResponse loginResponse = remoteSystem.login("joe", "joe1");
        if (loginResponse.getReturnCode()==0) {
     	   int sessionId = loginResponse.getSessionId();

@@ -53,4 +53,8 @@ public class Customer implements Serializable {
 		this.id = customerId;
 	}
 	
+	public String toString() {
+		return "Customer (" + this.getId() + "): " + this.getUserName() + "/" + this.getPassword();
+	}
+	
 }

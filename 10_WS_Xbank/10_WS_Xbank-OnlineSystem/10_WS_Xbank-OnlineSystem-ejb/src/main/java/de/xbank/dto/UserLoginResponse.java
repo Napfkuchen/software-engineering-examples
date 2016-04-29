@@ -5,12 +5,8 @@ public class UserLoginResponse extends ReturncodeResponse {
 	private static final long serialVersionUID = -3173158310918408228L;
 
 	private int sessionId;
-	private int customerId;
+	private CustomerTO customer;
 	
-	public UserLoginResponse() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public int getSessionId() {
 		return sessionId;
 	}
@@ -19,12 +15,12 @@ public class UserLoginResponse extends ReturncodeResponse {
 		this.sessionId = sessionId;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public CustomerTO getCustomer() {
+		return this.customer;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setCustomer(CustomerTO customer) {
+		this.customer = customer;
 	}
 
 }

@@ -4,9 +4,6 @@ import android.app.Application;
 import de.fh_muenster.xbank.Customer;
 import de.fh_muenster.xbank.XbankOnlineService;
 
-/**
- * Created by FalkoHoefte on 29.03.15.
- */
 public class XbankAndroidApplication extends Application{
 
     /**
@@ -23,6 +20,7 @@ public class XbankAndroidApplication extends Application{
      * The user attribute is set after successful login only.
      */
     public XbankAndroidApplication() {
+        //TODO: replace mock implementation of the interface by the web serivce based implementation
         this.xbankOnlineService = new XbankOnlineServiceImplMock();
     }
 

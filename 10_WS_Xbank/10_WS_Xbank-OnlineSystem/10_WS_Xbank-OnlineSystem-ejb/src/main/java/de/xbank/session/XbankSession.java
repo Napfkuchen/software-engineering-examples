@@ -12,7 +12,7 @@ public class XbankSession {
 	private Date creationTime;
 	
 	public XbankSession(Customer user) {
-		this.id = new Random(Integer.MAX_VALUE).nextInt();
+		this.id = new Random().nextInt(Integer.MAX_VALUE);
 		this.user = user;
 		this.creationTime = new Date();
 	}

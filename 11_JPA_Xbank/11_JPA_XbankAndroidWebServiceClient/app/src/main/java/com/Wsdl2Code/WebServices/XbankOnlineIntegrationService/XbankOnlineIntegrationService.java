@@ -28,7 +28,7 @@ import org.ksoap2.serialization.MarshalFloat;
 public class XbankOnlineIntegrationService {
     
     public String NAMESPACE ="http://onlinebanking.xbank.de/";
-    public String url="";   //TODO: insert the web service url as value for this attribute.
+    public String url="http://10.0.2.2:8080/xbank/XbankOnlineIntegration";
     public int timeOut = 180;
     public IWsdl2CodeEvents eventHandler;
     public SoapProtocolVersion soapVersion;
@@ -91,7 +91,7 @@ public class XbankOnlineIntegrationService {
     public userLoginResponse login(String arg0,String arg1,List<HeaderProperty> headers){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
+        //soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject("http://onlinebanking.xbank.de/","login");
         soapReq.addProperty("arg0",arg0);
         soapReq.addProperty("arg1",arg1);
@@ -99,9 +99,9 @@ public class XbankOnlineIntegrationService {
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try{
             if (headers!=null){
-                httpTransport.call("http://onlinebanking.xbank.de/login", soapEnvelope,headers);
+                httpTransport.call("", soapEnvelope,headers);
             }else{
-                httpTransport.call("http://onlinebanking.xbank.de/login", soapEnvelope);
+                httpTransport.call("", soapEnvelope);
             }
             Object retObj = soapEnvelope.bodyIn;
             if (retObj instanceof SoapFault){
@@ -162,16 +162,16 @@ public class XbankOnlineIntegrationService {
     public accountListResponse getMyAccounts(int arg0,List<HeaderProperty> headers){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
+        //soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject("http://onlinebanking.xbank.de/","getMyAccounts");
         soapReq.addProperty("arg0",arg0);
         soapEnvelope.setOutputSoapObject(soapReq);
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try{
             if (headers!=null){
-                httpTransport.call("http://onlinebanking.xbank.de/getMyAccounts", soapEnvelope,headers);
+                httpTransport.call("", soapEnvelope,headers);
             }else{
-                httpTransport.call("http://onlinebanking.xbank.de/getMyAccounts", soapEnvelope);
+                httpTransport.call("", soapEnvelope);
             }
             Object retObj = soapEnvelope.bodyIn;
             if (retObj instanceof SoapFault){
@@ -232,16 +232,16 @@ public class XbankOnlineIntegrationService {
     public returncodeResponse logout(int arg0,List<HeaderProperty> headers){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
+        //soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject("http://onlinebanking.xbank.de/","logout");
         soapReq.addProperty("arg0",arg0);
         soapEnvelope.setOutputSoapObject(soapReq);
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try{
             if (headers!=null){
-                httpTransport.call("http://onlinebanking.xbank.de/logout", soapEnvelope,headers);
+                httpTransport.call("", soapEnvelope,headers);
             }else{
-                httpTransport.call("http://onlinebanking.xbank.de/logout", soapEnvelope);
+                httpTransport.call("", soapEnvelope);
             }
             Object retObj = soapEnvelope.bodyIn;
             if (retObj instanceof SoapFault){
@@ -302,7 +302,7 @@ public class XbankOnlineIntegrationService {
     public accountBalanceResponse getBalance(int arg0,int arg1,List<HeaderProperty> headers){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
+        //soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject("http://onlinebanking.xbank.de/","getBalance");
         soapReq.addProperty("arg0",arg0);
         soapReq.addProperty("arg1",arg1);
@@ -310,9 +310,9 @@ public class XbankOnlineIntegrationService {
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try{
             if (headers!=null){
-                httpTransport.call("http://onlinebanking.xbank.de/getBalance", soapEnvelope,headers);
+                httpTransport.call("", soapEnvelope,headers);
             }else{
-                httpTransport.call("http://onlinebanking.xbank.de/getBalance", soapEnvelope);
+                httpTransport.call("", soapEnvelope);
             }
             Object retObj = soapEnvelope.bodyIn;
             if (retObj instanceof SoapFault){
@@ -373,7 +373,7 @@ public class XbankOnlineIntegrationService {
     public transferMoneyResponse transfer(int arg0,int arg1,int arg2,double arg3,boolean arg3Specified,List<HeaderProperty> headers){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
+        //soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject("http://onlinebanking.xbank.de/","transfer");
         MarshalFloat marshalFloat = new MarshalFloat();
         marshalFloat.register(soapEnvelope);
@@ -386,9 +386,9 @@ public class XbankOnlineIntegrationService {
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try{
             if (headers!=null){
-                httpTransport.call("http://onlinebanking.xbank.de/transfer", soapEnvelope,headers);
+                httpTransport.call("", soapEnvelope,headers);
             }else{
-                httpTransport.call("http://onlinebanking.xbank.de/transfer", soapEnvelope);
+                httpTransport.call("", soapEnvelope);
             }
             Object retObj = soapEnvelope.bodyIn;
             if (retObj instanceof SoapFault){

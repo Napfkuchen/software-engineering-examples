@@ -20,8 +20,7 @@ public class XbankAndroidApplication extends Application{
      * The user attribute is set after successful login only.
      */
     public XbankAndroidApplication() {
-        //TODO: replace mock implementation of the interface by the web serivce based implementation
-        this.xbankOnlineService = new XbankOnlineServiceImplMock();
+        this.xbankOnlineService = new XbankOnlineServiceImpl();
     }
 
     /**

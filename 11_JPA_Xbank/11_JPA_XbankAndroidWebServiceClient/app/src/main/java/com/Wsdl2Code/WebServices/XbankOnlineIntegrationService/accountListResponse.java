@@ -33,8 +33,11 @@ public class accountListResponse implements KvmSerializable {
             return;
         if (soapObject.hasProperty("accountList"))
         {
-            SoapObject j = (SoapObject)soapObject.getProperty("accountList");
-            accountList = new VectoraccountTO(j);
+            //nachfolgende generierte Zeile ist falsch und wird daher auskommentiert:
+            //SoapObject j = (SoapObject)soapObject.getProperty("accountList");
+
+            //der Konstruktor von VectoraccountTO muss mit "soapObject" aufgerufen werden:
+            accountList = new VectoraccountTO(soapObject);
         }
         if (soapObject.hasProperty("message"))
         {

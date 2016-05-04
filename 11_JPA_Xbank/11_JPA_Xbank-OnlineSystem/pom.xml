@@ -36,6 +36,7 @@
         <module>11_JPA_Xbank-OnlineSystem-ejb</module>
         <module>11_JPA_Xbank-OnlineSystem-web</module>
         <module>11_JPA_Xbank-OnlineSystem-ear</module>
+        <module>11_JPA_Xbank-PersistenceManagement-ejb</module>
     </modules>
 
     <properties>
@@ -112,6 +113,12 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+            	<groupId>de.xbank</groupId>
+            	<artifactId>11_JPA_Xbank-PersistenceManagement-ejb</artifactId>
+            	<version>1.0.0</version>
+            	<type>ejb</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

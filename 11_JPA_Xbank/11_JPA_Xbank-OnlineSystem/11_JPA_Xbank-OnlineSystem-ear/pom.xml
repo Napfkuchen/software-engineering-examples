@@ -52,6 +52,11 @@
             <artifactId>11_JPA_Xbank-OnlineSystem-ejb</artifactId>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>de.xbank</groupId>
+            <artifactId>11_JPA_Xbank-PersistenceManagement-ejb</artifactId>
+            <type>ejb</type>
+        </dependency>
     </dependencies>
 
     <build>

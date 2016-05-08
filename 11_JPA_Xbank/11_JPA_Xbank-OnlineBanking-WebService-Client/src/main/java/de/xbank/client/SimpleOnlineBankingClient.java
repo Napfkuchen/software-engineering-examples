@@ -3,7 +3,6 @@ package de.xbank.client;
 import java.math.BigDecimal;
 import java.util.List;
 
-import de.xbank.onlinebanking.AccountBalanceResponse;
 import de.xbank.onlinebanking.AccountListResponse;
 import de.xbank.onlinebanking.AccountTO;
 import de.xbank.onlinebanking.TransferMoneyResponse;
@@ -19,8 +18,8 @@ import de.xbank.onlinebanking.XbankOnlineIntegrationService;
 public class SimpleOnlineBankingClient {
 
 	//Testdaten:
-	private static final int JOES_KONTO	=1;
-	private static final int EMMAS_KONTO=3;
+	private static int joesKonto;
+	private static int emmasKonto;
 	
 	private static XbankOnlineIntegration remoteSystem;
 	
@@ -60,10 +59,18 @@ public class SimpleOnlineBankingClient {
        if (loginResponse.getReturnCode()==0) {
     	   int sessionId = loginResponse.getSessionId();
 		   System.out.println("Emma hat sich angemeldet, um ihren Kontostand abzufragen.");
-		   
-		   AccountBalanceResponse accountBalanceResponse = remoteSystem.getBalance(sessionId, EMMAS_KONTO);
-		   System.out.println("Auf Emmas Konto " + EMMAS_KONTO + " betraegt der Saldo: " + accountBalanceResponse.getBalance());
-		   
+
+		   AccountListResponse accountListResponse = remoteSystem.getMyAccounts(sessionId); 
+	       List<AccountTO> emmasKonten = accountListResponse.getAccountList();
+	       if (emmasKonten.size()>0) {
+	    	   //gib Emmas Konten aus:
+		       System.out.println("Emma hat folgende Konten:");
+		       for (AccountTO k : emmasKonten) {
+		    	   System.out.println("Konto-Nr: " + k.getId() + " Saldo: " + k.getBalance());
+		    	   emmasKonto = k.getId();
+		       }
+		       System.out.println();
+	       }
 	       remoteSystem.logout(sessionId);
 		   System.out.println("Emma hat sich abgemeldet.");
        }
@@ -89,12 +96,13 @@ public class SimpleOnlineBankingClient {
 		       System.out.println("Joe hat folgende Konten:");
 		       for (AccountTO k : joesKonten) {
 		    	   System.out.println("Konto-Nr: " + k.getId() + " Saldo: " + k.getBalance());
+		    	   joesKonto = k.getId();
 		       }
 		       System.out.println();
 		       
-		       TransferMoneyResponse transferResponse = remoteSystem.transfer(sessionId, JOES_KONTO, EMMAS_KONTO, new BigDecimal(33));
-		       System.out.println("Joe hat von Konto "+ JOES_KONTO +" 33 EUR an Konto " + EMMAS_KONTO + " ueberwiesen.");
-		       System.out.println("Der neue Saldo von Konto "+JOES_KONTO+" betraegt: " + transferResponse.getNewBalance());
+		       TransferMoneyResponse transferResponse = remoteSystem.transfer(sessionId, joesKonto, emmasKonto, new BigDecimal(33));
+		       System.out.println("Joe hat von Konto "+ joesKonto +" 33 EUR an Konto " + emmasKonto + " ueberwiesen.");
+		       System.out.println("Der neue Saldo von Konto "+joesKonto+" betraegt: " + transferResponse.getNewBalance());
 	       }
 	       remoteSystem.logout(sessionId);
 		   System.out.println("Joe hat sich abgemeldet.");
